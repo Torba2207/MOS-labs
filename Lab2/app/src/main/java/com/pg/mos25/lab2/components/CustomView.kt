@@ -8,6 +8,9 @@ import android.util.AttributeSet
 import android.view.View
 
 class CustomView : View {
+    private var red=false
+    private var rectangle=false
+
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet) :
             super(context, attrs)
@@ -15,8 +18,7 @@ class CustomView : View {
     Int) : super(context, attrs, defStyle)
 
 
-    private var red=false
-    private var rectangle=false
+
 
     fun setColor(isRed: Boolean) {
         red = isRed
