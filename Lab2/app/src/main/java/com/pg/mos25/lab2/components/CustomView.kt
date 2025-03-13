@@ -18,54 +18,26 @@ class CustomView : View {
     private var red=false
     private var rectangle=false
 
-    fun setColor(){
-        red=!red
+    fun setColor(isRed: Boolean) {
+        red = isRed
     }
 
-    fun setShape(){
-        rectangle=!rectangle
+    fun setShape(isRectangle: Boolean) {
+        rectangle = isRectangle
     }
-
-
-
 
     override fun draw(canvas: Canvas) {
         super.draw(canvas)
-        // Draw a red circle
+        val paint = Paint().apply {
+            color = if (red) Color.RED else Color.BLUE
+            style = Paint.Style.FILL
+            isAntiAlias = true
+        }
 
-        val centerX = width / 3f
-        val centerY = height / 3f
-        val radius = 100f
-
-        // Draw a blue rectangle
-        val left = width / 2f
-        val top = height / 2f
-        val right = left + 200f
-        val bottom = top + 100f
-        when{
-            red&&rectangle->canvas.drawRect(left, top, right, bottom, Paint().apply {
-                color =Color.RED // Set color
-                style = Paint.Style.FILL // Fill the shape
-                isAntiAlias = true // Smooth edges
-            })
-            red&&!rectangle->canvas.drawCircle(centerX, centerY, radius, Paint().apply {
-                color = Color.RED
-                style = Paint.Style.FILL
-                isAntiAlias = true
-            })
-
-            !red&&rectangle->canvas.drawRect(left, top, right, bottom, Paint().apply {
-                color =Color.BLUE
-                style = Paint.Style.FILL
-                isAntiAlias = true
-            })
-
-            !red&&!rectangle->canvas.drawCircle(centerX, centerY, radius, Paint().apply {
-                color = Color.BLUE
-                style = Paint.Style.FILL
-                isAntiAlias = true
-            })
-
+        if (rectangle) {
+            canvas.drawRect(100f, 100f, 300f, 200f, paint)
+        } else {
+            canvas.drawCircle(200f, 200f, 100f, paint)
         }
 
 
