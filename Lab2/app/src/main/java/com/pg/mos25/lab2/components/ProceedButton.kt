@@ -8,11 +8,18 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionContext
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Outline
 
 @Composable
-fun ProceedButton(name: String, context: Context, destination: Class<*>, modifier: Modifier=Modifier){
+fun ProceedButton(name: String, context: Context,
+                  destination: Class<*>,
+                  isRed:Boolean=false,
+                  isRectangle: Boolean=false){
     Button(onClick = {
-        val intent=Intent(context,destination)
+        val intent=Intent(context,destination).apply {
+            putExtra("EXTRA_RED", isRed)
+            putExtra("EXTRA_RECT", isRectangle)
+        }
         context.startActivity(intent)
     }){
         Text(name)
