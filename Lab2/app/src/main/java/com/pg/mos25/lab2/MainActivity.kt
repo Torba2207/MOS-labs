@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             Lab2Theme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    ProceedButton("To Second Activity", LocalContext.current,
+                    ProceedButton("To the Second Activity", LocalContext.current,
                         SecondActivity::class.java, modifier = Modifier.padding(innerPadding))
                 }
             }
