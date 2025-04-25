@@ -10,6 +10,8 @@ import com.pg.mos25.lab5.R
 class MainActivity : AppCompatActivity() {
 
     private lateinit var generatedArray: IntArray
+    private var kotlinTime: Float = 0.0F
+    private var cppTime: Float=0.0F
 
     private external fun sortArray(array: IntArray)
 
@@ -37,24 +39,31 @@ class MainActivity : AppCompatActivity() {
         }
 
         sortButton.setOnClickListener {
-            val arrayCopy = generatedArray.copyOf()
 
-            val startKotlin = System.nanoTime()
-            val kotlinSorted = sortArrayKotlin(arrayCopy)
-            val endKotlin = System.nanoTime()
-            val arrText=arrayCopy.joinToString(", ")
-            val startCpp = System.nanoTime()
-            sortArray(arrayCopy)
-            val endCpp = System.nanoTime()
+            for(i in 0..10) {
+                val arrayCopy = generatedArray.copyOf()
+                val startKotlin = System.nanoTime()
+                val kotlinSorted = sortArrayKotlin(arrayCopy)
+                val endKotlin = System.nanoTime()
+                val arrText = arrayCopy.joinToString(", ")
+                val startCpp = System.nanoTime()
+                sortArray(arrayCopy)
+                val endCpp = System.nanoTime()
+                if(i==0)
+                    sortedText.text = arrayCopy.joinToString(", ")
+                val durationCppMs = ((endCpp - startCpp) / 1_000_000.0).toFloat()
+                val durationKotlinMs = ((endKotlin - startKotlin) / 1_000_000.0).toFloat()
+                kotlinTime+=durationKotlinMs
+                cppTime+=durationCppMs
+            }
 
-            sortedText.text = arrayCopy.joinToString(", ")
 
-            val durationCppMs = (endCpp - startCpp) / 1_000_000.0
-            val durationKotlinMs = (endKotlin - startKotlin) / 1_000_000.0
             val performanceText = """
-                C++ sort time: ${"%.3f".format(durationCppMs)} ms
-                Kotlin sort time: ${"%.3f".format(durationKotlinMs)} ms
+                C++ sort time: ${"%.3f".format(cppTime/10)} ms
+                Kotlin sort time: ${"%.3f".format(kotlinTime/10)} ms
             """.trimIndent()
+            cppTime=0.0F
+            kotlinTime=0.0F
 
             findViewById<TextView>(R.id.txtPerformance).text = performanceText
         }
